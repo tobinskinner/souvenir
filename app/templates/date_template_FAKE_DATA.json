@@ -5,8 +5,16 @@
       "location": "Montreal",
       "message": "Tweet 1",
       "image": ""
+    },{
+      "location": "Montreal",
+      "message": "Tweet 1",
+      "image": ""
     }],
     "facebook": [{
+      "location": "Montreal",
+      "message": "Facebook 1",
+      "image": ""
+    },{
       "location": "Montreal",
       "message": "Facebook 1",
       "image": ""

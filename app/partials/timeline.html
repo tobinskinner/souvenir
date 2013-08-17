@@ -1,10 +1,29 @@
 <div class="container">
-  <div class="row">
+  <div class="row" ng-repeat="day in media">
     <div class="span12 pagination-centered">
-      TIMELINE GOES HERE
-      <br />
-      {{media}}
+      <h1>{{day.date}}</h1>
     </div>
+    <hr />
+    <div class="span12">
+      <h2>Facebook</h2>
+    </div>
+    <div class="span12" ng-repeat="facebookPost in day.media.facebook">
+      Location: {{facebookPost.location}}<br />
+      Message: {{facebookPost.message}}<br />
+      Image: {{facebookPost.image}}<br />
+      <hr />
+    </div>
+    <hr />
+    <div class="span12">
+      <h2>Twitter</h2>
+    </div>
+    <div class="span12" ng-repeat="tweet in day.media.twitter">
+      Location: {{tweet.location}}<br />
+      Message: {{tweet.message}}<br />
+      Image: {{tweet.image}}<br />
+    <hr />
     </div>
   </div>
 </div>
+  
+

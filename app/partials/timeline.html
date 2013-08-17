@@ -16,7 +16,7 @@
     </div>
     <hr />
     <div class="row">
-    <div ng-class="{'span5 well': day.twitter[0], 'span10 offset1 well': !day.twitter[0]}" ng-hide="!day.flickr[0]">
+    <div ng-class="{'span5 offset1 well pagination-centered': day.twitter[0], 'span10 offset1 well pagination-centered': !day.twitter[0]}" ng-hide="!day.flickr[0]">
       <div class="mediaHeader"><h2>Flickr</h2></div>
       <span ng-repeat="flickrImage in day.flickr">
       <span ng-hide="!flickrImage.location">Where: {{flickrImage.location}}<br /></span>

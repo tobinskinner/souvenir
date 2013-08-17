@@ -8,9 +8,13 @@
   border-radius: 10px;
 }
 
+h2 {
+  text-align: center;
+}
+
 hr {
-color: #000000;
-background-color: #000000;
+color: #B3B1B2;
+background-color: #84978F;
 height: 2px;
 }
 
@@ -18,4 +22,10 @@ height: 2px;
   font-size: 1.2em;
   font-style: italic;
   font-weight: 700;
+}
+
+.mediaHeader {
+  margin: 0;
+  background-color: #ADA692;
+  border-radius: 5px;
 }

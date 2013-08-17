@@ -1,28 +1,37 @@
 <div class="container">
-  <div class="row" ng-repeat="day in media">
+  <div class="row">
+    <div class="span3">
+      <a href="#/login">Return</a>
+    </div>
+  </div>
+
+  <div class="row" ng-repeat="day in media" ng-hide="!day.flickr[0] && !day.twitter[0]">
     <div class="span12 pagination-centered">
       <h1>{{day.date}}</h1>
     </div>
     <hr />
-    <div class="span12">
-      <h2>Facebook</h2>
-    </div>
-    <div class="span12" ng-repeat="facebookPost in day.media.facebook">
-      Location: {{facebookPost.location}}<br />
-      Message: {{facebookPost.message}}<br />
-      Image: {{facebookPost.image}}<br />
+    <div class="row">
+    <div ng-class="{'span5 well': day.twitter[0], 'span10 offset1 well': !day.twitter[0]}" ng-hide="!day.flickr[0]">
+      <div class="mediaHeader"><h2>Flickr</h2></div>
+    {{day.twitter.length}}
+    <span ng-repeat="flickrImage in day.flickr">
+      Where: {{flickrImage.location}}<br />
+      {{flickrImage.message}}<br />
+      <img ng-src="{{flickrImage.image}}" ng-hide="!flickrImage.image || flickrImage.image==''"><br />
       <hr />
+    </span>
     </div>
-    <hr />
-    <div class="span12">
+    <div ng-class="{'span5 well': day.flickr[0], 'span10 offset1 well': !day.flickr[0]}" ng-hide="!day.twitter[0]">
       <h2>Twitter</h2>
-    </div>
-    <div class="span12" ng-repeat="tweet in day.media.twitter">
-      Location: {{tweet.location}}<br />
-      Message: {{tweet.message}}<br />
-      Image: {{tweet.image}}<br />
+    
+    <span ng-repeat="tweet in day.twitter">
+      Where: {{tweet.location}}<br />
+      {{tweet.message}}<br />
+      <img ng-src="{{tweet.image}}" ng-hide="!tweet.image || tweet.image==''"><br />
     <hr />
+    </span>
     </div>
+  </div>
   </div>
 </div>
   

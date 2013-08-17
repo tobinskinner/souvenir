@@ -11,8 +11,15 @@ angular.module('souvenirApp.services', [])
     'Media',
     function($http) {
       return {
-        'blankDataTemplate': function() {
-          var promise = $http.get('templates/date_template_FAKE_DATA.json')
+        'fakeFlickrData': function() {
+          var promise = $http.get('templates/date_template_FAKE_DATA_FLICKR.json')
+            .then(function(response) {
+              return response.data;
+            });
+          return promise;
+        },
+        'fakeTwitterData': function() {
+          var promise = $http.get('templates/date_template_FAKE_DATA_TWITTER.json')
             .then(function(response) {
               return response.data;
             });

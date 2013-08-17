@@ -9,7 +9,7 @@
       <h2>My Vacation</h2>
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-show="datesEntered==false">
     <div class="span12">
       <div><h3>Enter the Dates of your Trip</h3></div>
     </div>
@@ -18,9 +18,12 @@
     <div class="span12">
       <div class="span4">Depart: <input type="date" ng-model="dates.from"></div>
       <div class="span4"> Return: <input type="date" ng-model="dates.to"></div>
+      <div class="span3">
+      <button class="btn btn-primary" ng-click="setDates(dates)">Go</button></div>
     </div>
   </div>
   <hr />
+  <div ng-show="datesEntered==true">
   <div class="row">
     <div class="span12">
       <div><h3>Log into Social Media</h3></div>
@@ -28,19 +31,19 @@
   </div>
   <div class="row">
     <div class="span12">
-     <div class="socialMediaName">Facebook</div>
+     <div class="socialMediaName">Flickr</div>
     </div>
   </div>
-  <div class="row" ng-show="loggedInToFacebook==false">
+  <div class="row" ng-show="loggedInToFlickr==false">
     <div class="span8">
-      Username: <input type="text" ng-model="  userInfoFacebook.username"> Password: <input type="password" ng-model="userInfoFacebook.password">
+      Username: <input type="text" ng-model="  userInfoFlickr.username"> Password: <input type="password" ng-model="userInfoFlickr.password">
     </div>
     <div class="span3">
-      <button class="btn btn-primary" ng-click="getFacebook(userInfoFacebook, dates)">Get Facebook Posts</button></div>
+      <button class="btn btn-primary" ng-click="getFlickr(userInfoFlickr, dates)">Get Flickr Photos</button></div>
   </div>
-  <div class="row" ng-show="loggedInToFacebook==true">
+  <div class="row" ng-show="loggedInToFlickr==true">
     <div class="span8">
-      Facebook posts downloaded.
+      Flickr images downloaded.
     </div>
   </div>
   <hr />
@@ -67,4 +70,5 @@
       <button class="btn btn-inverse" ng-click="generateTimeline()">Make My Page</button>
     </div>
   </div>
+</div>
 </div>

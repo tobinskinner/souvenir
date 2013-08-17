@@ -28,7 +28,7 @@ app.get('/twitpic/:user', function(req, res) {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     };
-    console.log(options);
+
     return options;
 
   };
@@ -37,16 +37,14 @@ app.get('/twitpic/:user', function(req, res) {
 
     // number of pages to request in batches of 20 rounded up
     var pages = Math.ceil(result.photo_only_count / 20);
-    console.log('photo: ' + result.photo_only_count);
-    console.log('pages: ' + pages);
+
     for (var i = 1; i <= pages; i++) {
-
-      rest.getJSON(getoptions(i), function(statusCode, result) {
-        results.push(result.images);
+      rest.getJSON(getoptions(i), function(statusCode, nextresult) {
+        results.push(nextresult.images);
       });
-
     }
 
+    res.statusCode = statusCode;
     res.send(results);
 
   });

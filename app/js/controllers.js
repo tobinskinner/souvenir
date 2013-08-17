@@ -14,51 +14,95 @@ angular.module('souvenirApp.controllers', [])
     // Login functions go here
 
     // Set up scope variables
-    $scope.loggedInToFacebook = false;
+    $scope.datesEntered = false;
+    $scope.loggedInToFlickr = false;
     $scope.loggedInToTwitter = false;
+    $scope.loading = false;
 
-    $scope.getFacebook = function(userInfoFacebook, dates) {
+    $rootScope.media = {};
+
+    $scope.setDates = function(dates) {
       if (!dates || !dates.from || !dates.to) {
         window.alert("Please enter your travel dates.");
-      } else if (!userInfoFacebook || !userInfoFacebook.username || !userInfoFacebook.password) {
-        window.alert("Please enter both a username and a password for Facebook.");
-        return;
       } else {
         var dateFrom = new Date(dates.from);
         var dateTo = new Date(dates.to);
+
         if (dateFrom > dateTo) {
           window.alert("Please verify dates.\nYour departure date is later than your returning date.");
           return;
         }
-        // TODO Change to REST API request
-        Media.blankDataTemplate().then(function(facebookResponse) {
-            $rootScope.media = facebookResponse;
-            $scope.loggedInToFacebook = true;
-          });
 
-        console.log(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
+        var fromDateToString = JSON.stringify(dates.from);
+        var toDateToString = JSON.stringify(dates.to);
+        $scope.fromDate = fromDateToString;
+        $scope.toDate = toDateToString;
+        console.log(fromDateToString);
+        var currentDate = new Date(fromDateToString);
+        var finalDate = new Date(dates.to);
+        do {
+          $rootScope.media[currentDate.toLocaleDateString()] = {};
+          $rootScope.media[currentDate.toLocaleDateString()].date = currentDate.toDateString();
+          $rootScope.media[currentDate.toLocaleDateString()].flickr = [];
+          $rootScope.media[currentDate.toLocaleDateString()].twitter = [];
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        while (currentDate.getDate() <= (finalDate.getDate() + 1));
+        $scope.datesEntered = true;
       }
     };
 
-    $scope.getTwitter = function(userInfoFacebook, dates) {
-      if (!dates || !dates.from || !dates.to) {
-        window.alert("Please enter your travel dates.");
-      } else if (!userInfoFacebook || !userInfoFacebook.username || !userInfoFacebook.password) {
+    $scope.getFlickr = function(userInfoFlickr, dates) {
+      if (!userInfoFlickr || !userInfoFlickr.username) {
+        window.alert("Please enter a username for Flickr.");
+        return;
+      } else {
+        $scope.loading = true;
+        var dateFrom = new Date(dates.from);
+        var dateTo = new Date(dates.to);
+
+        // TODO Change to REST API request
+        // Add Flickr images to scope if they fall in date range
+        Media.fakeFlickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
+          console.log(JSON.stringify(flickrResponse));
+          for (var i = 0; i < flickrResponse.length; i++) {
+            var url = "http://farm" + flickrResponse[i].farm + ".staticflickr.com/" + flickrResponse[i].server + "/" + flickrResponse[i].id + "_" + flickrResponse[i].secret + ".jpg";
+            console.log(url);
+
+            // var postedDate = new Date(flickrResponse[i].date * 1000).toLocaleDateString();
+            // if ($scope.media[postedDate]) {
+            //   $rootScope.media[postedDate].flickr.push(flickrResponse[i]);
+            // }
+          }
+
+          $scope.loading = false;
+          $scope.loggedInToFlickr = true;
+        });
+      }
+    };
+
+    $scope.getTwitter = function(userInfoTwitter, dates) {
+      if (!userInfoTwitter || !userInfoTwitter.username || !userInfoTwitter.password) {
         window.alert("Please enter both a username and a password for Twitter.");
         return;
       } else {
+        $scope.loading = true;
         var dateFrom = new Date(dates.from);
         var dateTo = new Date(dates.to);
-        if (dateFrom > dateTo) {
-          window.alert("Please verify dates.\nYour departure date is later than your returning date.");
-          return;
-        }
+
         // TODO Change to REST API request
-        Media.blankDataTemplate().then(function(tweetResponse) {
-            $rootScope.media = tweetResponse;
-            $scope.loggedInToTwitter = true;
-          });
-          console.log(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
+        // Add tweets to scope if they fall in date range
+        Media.fakeTwitterData().then(function(twitterResponse) {
+          for (var i = 0; i < twitterResponse.length; i++) {
+            var postedDate = new Date(twitterResponse[i].date * 1000).toLocaleDateString();
+            if ($scope.media[postedDate]) {
+              $rootScope.media[postedDate].twitter.push(twitterResponse[i]);
+            }
+          }
+          $scope.loading = false;
+          $scope.loggedInToTwitter = true;
+        });
       }
     };
 

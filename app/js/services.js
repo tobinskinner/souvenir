@@ -13,7 +13,7 @@ angular.module('souvenirApp.services', [])
       return {
         'fakeFlickrData': function(username, dateFrom, dateTo) {
           // http://localhost:9999/flickr?user=jdhorner&sy=2009&sm=8&sd=22&ey=2009&em=8&ed=24
-          var server = "http://localhost:9999/flickr?";
+          var server = "http://www.jopho.com/flickr?";
           var stringDateFrom = "sy=" + dateFrom.getFullYear() + "&sm=" + (dateFrom.getMonth() + 1) + "&sd=" + dateFrom.getDate();
           var stringDateTo = "ey=" + dateTo.getFullYear() + "&em=" + (dateTo.getMonth() + 1) + "&ed=" + dateTo.getDate();
           var url = server + "user=" + username + "&" + stringDateFrom + "&" + stringDateTo;

@@ -15,9 +15,9 @@ app.configure(function() {
 
 app.all('*', function(req, res, next) {
   // console.log(req);
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With');
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.header('Access-Control-Allow-Origin', '*.jopho.com');
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   return next();
 });
 

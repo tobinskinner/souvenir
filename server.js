@@ -15,30 +15,36 @@ app.configure(function() {
 
 app.get('/flickr', function(req, res) {
 
-  // var user = req.query.user;
-  // var startdate = new Date(req.query.startdate);
-  // var enddate = new Date(req.query.enddate);
-  var user = '70625544%40N00';
-  var startdate = '1251000000000';
-  var enddate = '1251172799000';
+  var username = req.query.user;
+  var startdate = new Date(req.query.sy, req.query.sm - 1, req.query.sd, 0, 0, 0);
+  var enddate = new Date(req.query.ey, req.query.em - 1, req.query.ed, 23, 59, 59);
 
-  var options = {
+  var useroptions = {
     host: 'api.flickr.com',
-    path: '/services/rest/?method=flickr.photos.search' +
-      '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' +
-      '&user_id=' + user +
-      '&min_taken_date=' + startdate +
-      '&max_taken_date=' + enddate +
-      '&format=json&nojsoncallback=1',
+    path: '/services/rest/?method=flickr.people.findByUsername' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&username=' + username + '&format=json&nojsoncallback=1',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   };
 
-  rest.getJSON(options, function(statusCode, result) {
-    res.statusCode = statusCode;
-    res.send(result);
+  rest.getJSON(useroptions, function(statusCode, result) {
+
+    var usercode = result.user.nsid;
+    var options = {
+      host: 'api.flickr.com',
+      path: '/services/rest/?method=flickr.photos.search' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&user_id=' + usercode + '&min_taken_date=' + startdate.getTime() + '&max_taken_date=' + enddate.getTime() + '&format=json&nojsoncallback=1',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+      rest.getJSON(options, function(statusCode, results) {
+        res.statusCode = statusCode;
+        res.send(results);
+      });
+
   });
 
 });

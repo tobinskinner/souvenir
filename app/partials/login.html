@@ -72,7 +72,8 @@
       Username: <input type="text" ng-model="  userInfoTwitter.username"> Password: <input type="password" ng-model="userInfoTwitter.password">
     </div>
     <div class="span3">
-      <button class="btn btn-primary" ng-click="getTwitter(userInfoTwitter, dates)">Get Tweets</button></div>
+      <button class="btn btn-primary" ng-click="getFakeTwitter(userInfoTwitter, dates)">Get FAKE Tweets</button><br />
+      <button class="btn btn-primary" ng-click="getTwitter(userInfoTwitter, dates)" disabled>Get Tweets</button></div>
   </div>
   <div class="row" ng-show="loggedInToTwitter==true">
     <div class="span8">

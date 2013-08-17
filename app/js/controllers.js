@@ -72,7 +72,7 @@ angular.module('souvenirApp.controllers', [])
         var dateTo = new Date(dates.to);
 
         // Add Flickr images to scope if they fall in date range
-        Media.fakeFlickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
+        Media.flickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
           for (var i = 0; i < flickrResponse.length; i++) {
             var url = "http://farm" + flickrResponse[i].farm + ".staticflickr.com/" + flickrResponse[i].server + "/" + flickrResponse[i].id + "_" + flickrResponse[i].secret + ".jpg";
             var postedDate = new Date(flickrResponse[i].datetaken).toLocaleDateString();
@@ -88,14 +88,13 @@ angular.module('souvenirApp.controllers', [])
               $rootScope.media[postedDate].flickr.push(newFlickrObject);
             }
           }
-
           $scope.loading = false;
           $scope.loggedInToFlickr = true;
         });
       }
     };
 
-    $scope.getTwitter = function(userInfoTwitter, dates) {
+    $scope.getFakeTwitter = function(userInfoTwitter, dates) {
       if (!userInfoTwitter || !userInfoTwitter.username || !userInfoTwitter.password) {
         window.alert("Please enter both a username and a password for Twitter.");
         return;
@@ -119,11 +118,41 @@ angular.module('souvenirApp.controllers', [])
       }
     };
 
+    $scope.getTwitter = function(userInfoTwitter, dates) {
+      if (!userInfoTwitter || !userInfoTwitter.username || !userInfoTwitter.password) {
+        window.alert("Please enter both a username and a password for Twitter.");
+        return;
+      } else {
+        $scope.loading = true;
+        var dateFrom = new Date(dates.from);
+        var dateTo = new Date(dates.to);
+
+        // TODO Change to REST API request
+        // Add tweets to scope if they fall in date range
+        Media.twitterData().then(function(twitterResponse) {
+          // for (var i = 0; i < twitterResponse.length; i++) {
+          //   var postedDate = new Date(twitterResponse[i].date * 1000).toLocaleDateString();
+          //   if ($scope.media[postedDate]) {
+          //     $rootScope.media[postedDate].twitter.push(twitterResponse[i]);
+          //   }
+          // }
+          $scope.loading = false;
+          $scope.loggedInToTwitter = true;
+        });
+      }
+    };
     $scope.generateTimeline = function() {
       // Add some error checking
       if ($rootScope.media == undefined) {
         window.alert("There is no data to show. Please verify dates and log-ins.");
         return;
+      } else {
+        // Organize scope media object so that it show up properly in Angularized DOM
+        var mediaArray = [];
+        for (var i in $rootScope.media) {
+          mediaArray.push($rootScope.media[i]);
+        }
+        $rootScope.media = mediaArray;
       }
       window.location.assign("#/timeline");
     };

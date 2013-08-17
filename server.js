@@ -13,16 +13,53 @@ app.configure(function() {
 
 // routes
 
-app.all('*', function(req, res, next) {
+/*                __                         __         __
+   ____  ____  / /_   ____  ___  ___  ____/ /__  ____/ /
+  / __ \/ __ \/ __/  / __ \/ _ \/ _ \/ __  / _ \/ __  /
+ / / / / /_/ / /_   / / / /  __/  __/ /_/ /  __/ /_/ /
+/_/ /_/\____/\__/  /_/ /_/\___/\___/\__,_/\___/\__,_/
+                                                        */
+
+/*app.all('*', function(req, res, next) {
   // console.log(req);
   res.header('Access-Control-Allow-Origin', '*.jopho.com');
   res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   return next();
+});*/
+
+/*                                                __  _
+   ____  ____     ____ ___  ____  ________     / /_(_)___ ___  ___
+  / __ \/ __ \   / __ `__ \/ __ \/ ___/ _ \   / __/ / __ `__ \/ _ \
+ / / / / /_/ /  / / / / / / /_/ / /  /  __/  / /_/ / / / / / /  __/
+/_/ /_/\____/  /_/ /_/ /_/\____/_/   \___/   \__/_/_/ /_/ /_/\___/
+                                                                   */
+
+app.get('/twitter', function(req, res) {
+
+  var username = req.query.user;
+  var enddate = req.query.ey + '-' + req.query.em + '-' + req.query.ed;
+
+  //never would have worked… twitter requires per-search oauth tokens
+  //which also require https. ran out of time.
+  var options = {
+    host: 'api.twitter.com',
+    path: '/1.1/search/tweets.json?q=%23' + username + '&result_type=popular&count=100&until=' + enddate,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  rest.getJSON(options, function(statusCode, results) {
+    res.statusCode = statusCode;
+    res.send(results);
+  });
+
 });
 
 app.get('/flickr', function(req, res) {
-console.log(req.query);
+
   var username = req.query.user;
   var startdate = new Date(req.query.sy, req.query.sm - 1, req.query.sd, 0, 0, 0);
   var enddate = new Date(req.query.ey, req.query.em - 1, req.query.ed, 23, 59, 59);
@@ -57,6 +94,14 @@ console.log(req.query);
 
 });
 
+
+/*
+  / /__      __(_) /_____  (_)____   / /_  _________  / /_____  ____
+ / __/ | /| / / / __/ __ \/ / ___/  / __ \/ ___/ __ \/ //_/ _ \/ __ \
+/ /_ | |/ |/ / / /_/ /_/ / / /__   / /_/ / /  / /_/ / ,< /  __/ / / /
+\__/ |__/|__/_/\__/ .___/_/\___/  /_.___/_/   \____/_/|_|\___/_/ /_/
+                 /_/                                                 */
+//I fail at recursive.
 app.get('/twitpic', function(req, res) {
 
   var user = req.query.user;

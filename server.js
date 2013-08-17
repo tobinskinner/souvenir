@@ -13,16 +13,16 @@ app.configure(function() {
 
 // routes
 
-app.all('*', function(req, res, next) {
+/*app.all('*', function(req, res, next) {
   // console.log(req);
   res.header('Access-Control-Allow-Origin', '*.jopho.com');
   res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   return next();
-});
+});*/
 
-app.get('/flickr', function(req, res) {
-console.log(req.query);
+app.get('/twitter', function(req, res) {
+
   var username = req.query.user;
   var startdate = new Date(req.query.sy, req.query.sm - 1, req.query.sd, 0, 0, 0);
   var enddate = new Date(req.query.ey, req.query.em - 1, req.query.ed, 23, 59, 59);
@@ -57,6 +57,50 @@ console.log(req.query);
 
 });
 
+app.get('/flickr', function(req, res) {
+
+  var username = req.query.user;
+  var startdate = new Date(req.query.sy, req.query.sm - 1, req.query.sd, 0, 0, 0);
+  var enddate = new Date(req.query.ey, req.query.em - 1, req.query.ed, 23, 59, 59);
+
+  var useroptions = {
+    host: 'api.flickr.com',
+    path: '/services/rest/?method=flickr.people.findByUsername' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&username=' + username + '&format=json&nojsoncallback=1',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  rest.getJSON(useroptions, function(statusCode, result) {
+
+    var usercode = result.user.nsid;
+    var options = {
+      host: 'api.flickr.com',
+      path: '/services/rest/?method=flickr.photos.search' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&user_id=' + usercode + '&min_taken_date=' + Math.round(startdate.getTime() / 1000) + '&max_taken_date=' + Math.round(enddate.getTime() / 1000) + '&extras=date_taken&format=json&nojsoncallback=1',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    rest.getJSON(options, function(statusCode, results) {
+      res.statusCode = statusCode;
+      res.send(results);
+    });
+
+  });
+
+});
+
+
+/*
+  / /__      __(_) /_____  (_)____   / /_  _________  / /_____  ____
+ / __/ | /| / / / __/ __ \/ / ___/  / __ \/ ___/ __ \/ //_/ _ \/ __ \
+/ /_ | |/ |/ / / /_/ /_/ / / /__   / /_/ / /  / /_/ / ,< /  __/ / / /
+\__/ |__/|__/_/\__/ .___/_/\___/  /_.___/_/   \____/_/|_|\___/_/ /_/
+                 /_/                                                 */
+//I fail at recursive.
 app.get('/twitpic', function(req, res) {
 
   var user = req.query.user;

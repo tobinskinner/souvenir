@@ -10,8 +10,13 @@ angular.module('souvenirApp.controllers', [])
 )
 
 .controller('loginToSocialMediaController',
-  function($scope) {
+  function($scope, $rootScope, Media) {
     // Login functions go here
+
+    // Set up scope variables
+    $scope.loggedInToFacebook = false;
+    $scope.loggedInToTwitter = false;
+
     $scope.getFacebook = function(userInfoFacebook, dates) {
       if (!dates || !dates.from || !dates.to) {
         window.alert("Please enter your travel dates.");
@@ -25,8 +30,13 @@ angular.module('souvenirApp.controllers', [])
           window.alert("Please verify dates.\nYour departure date is later than your returning date.");
           return;
         }
+        // TODO Change to REST API request
+        Media.blankDataTemplate().then(function(facebookResponse) {
+            $rootScope.media = facebookResponse;
+            $scope.loggedInToFacebook = true;
+          });
 
-        window.alert(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
+        console.log(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
       }
     };
 
@@ -43,16 +53,29 @@ angular.module('souvenirApp.controllers', [])
           window.alert("Please verify dates.\nYour departure date is later than your returning date.");
           return;
         }
-
-        window.alert(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
+        // TODO Change to REST API request
+        Media.blankDataTemplate().then(function(tweetResponse) {
+            $rootScope.media = tweetResponse;
+            $scope.loggedInToTwitter = true;
+          });
+          console.log(JSON.stringify(userInfoFacebook) + " " + dates.from + " to " + dates.to);
       }
+    };
+
+    $scope.generateTimeline = function() {
+      // Add some error checking
+      if ($rootScope.media == undefined) {
+        window.alert("There is no data to show. Please verify dates and log-ins.");
+        return;
+      }
+      window.location.assign("#/timeline");
     };
 
   }
 )
 
 .controller('timelineController',
-  function($scope) {
+  function($scope, $rootScope) {
     // Timeline functions go here
   }
 );

@@ -13,6 +13,14 @@ app.configure(function() {
 
 // routes
 
+app.all('*', function(req, res, next) {
+  // console.log(req);
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  return next();
+});
+
 app.get('/flickr', function(req, res) {
 console.log(req.query);
   var username = req.query.user;

@@ -11,6 +11,15 @@
   </div>
   <div class="row" ng-show="datesEntered==false">
     <div class="span12">
+      <div class="loginTitle"><h3>Name Your Trip</h3></div>
+    </div>
+  </div>
+  <div class="row" ng-show="datesEntered==false">
+    <div class="span12">
+    <div class="span4"><input type="text" ng-model="dates.title" placeholder="Trip Description"></div> </div>
+  </div>
+  <div class="row" ng-show="datesEntered==false">
+    <div class="span12">
       <div class="loginTitle"><h3>Enter the Dates of your Trip</h3></div>
     </div>
   </div>
@@ -24,6 +33,7 @@
   </div>
   <div class="row" ng-show="datesEntered==true">
     <div class="span5 loginTitle">
+      <h3>{{tripTitle}}</h3>
       <h3>From: {{fromDate}} To: {{toDate}}</h3> <button class="btn btn-primary" ng-click="datesEntered=false">Change Dates</button>
     </div>
   </div>
@@ -44,7 +54,7 @@
       Username: <input type="text" ng-model="  userInfoFlickr.username">
     </div>
     <div class="span3">
-      <button class="btn btn-primary" ng-click="getFlickr(userInfoFlickr, dates)">Get Flickr Photos</button></div>
+      <button class="btn btn-primary" ng-click="getFlickr(userInfoFlickr, dates)">Get Flickr Photos</button><img src="img/spinner-small.gif" ng-show="loading==true"></div>
   </div>
   <div class="row" ng-show="loggedInToFlickr==true">
     <div class="span8">

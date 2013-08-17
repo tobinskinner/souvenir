@@ -24,6 +24,8 @@ angular.module('souvenirApp.controllers', [])
     $scope.setDates = function(dates) {
       if (!dates || !dates.from || !dates.to) {
         window.alert("Please enter your travel dates.");
+      } else if (!dates.title) {
+        window.alert("Please name your trip.");
       } else {
         // Annoying workaround because javascript dates are awful
         var dateFromArray = dates.from.split("-");
@@ -38,14 +40,12 @@ angular.module('souvenirApp.controllers', [])
         var dateFrom = new Date(dateFromYear, (dateFromMonth - 1), dateFromDay);
         var dateTo = new Date(dateToYear, (dateToMonth - 1), dateToDay);
 
-        console.log(dateFrom);
-        console.log(dateTo);
-
         if (dateFrom > dateTo) {
           window.alert("Please verify dates.\nYour departure date is later than your returning date.");
           return;
         }
 
+        $rootScope.tripTitle = dates.title;
         $scope.fromDate = dates.from;
         $scope.toDate = dates.to;
 
@@ -60,8 +60,6 @@ angular.module('souvenirApp.controllers', [])
         while (dateFrom.getTime() <= dateTo.getTime());
         $scope.datesEntered = true;
       }
-
-      console.log($rootScope.media);
     };
 
     $scope.getFlickr = function(userInfoFlickr, dates) {
@@ -73,14 +71,11 @@ angular.module('souvenirApp.controllers', [])
         var dateFrom = new Date(dates.from);
         var dateTo = new Date(dates.to);
 
-        // TODO Change to REST API request
         // Add Flickr images to scope if they fall in date range
         Media.fakeFlickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
           for (var i = 0; i < flickrResponse.length; i++) {
             var url = "http://farm" + flickrResponse[i].farm + ".staticflickr.com/" + flickrResponse[i].server + "/" + flickrResponse[i].id + "_" + flickrResponse[i].secret + ".jpg";
             var postedDate = new Date(flickrResponse[i].datetaken).toLocaleDateString();
-            console.log(flickrResponse[i].datetaken);
-            console.log(postedDate);
             if ($rootScope.media[postedDate]) {
               var newFlickrObject = {};
               if (flickrResponse[i].location) {
@@ -93,8 +88,6 @@ angular.module('souvenirApp.controllers', [])
               $rootScope.media[postedDate].flickr.push(newFlickrObject);
             }
           }
-          console.log($rootScope.media);
-
 
           $scope.loading = false;
           $scope.loggedInToFlickr = true;

@@ -1,10 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="span3">
-      <a href="#/login">Return</a>
+      <a href="#/login"><h3>Return</h3></a>
     </div>
   </div>
-
+  <div class="row">
+     <div class="span12 pagination-centered appTitleDiv">
+      <h1>{{tripTitle}}</h1>
+    <hr />
+    </div>
+  </div>
   <div class="row" ng-repeat="day in media" ng-hide="!day.flickr[0] && !day.twitter[0]">
     <div class="span12 pagination-centered dateDiv">
       <h1>{{day.date}}</h1>

@@ -33,32 +33,31 @@ app.get('/flickr', function(req, res) {
     var usercode = result.user.nsid;
     var options = {
       host: 'api.flickr.com',
-      path: '/services/rest/?method=flickr.photos.search' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&user_id=' + usercode + '&min_taken_date=' + startdate.getTime() + '&max_taken_date=' + enddate.getTime() + '&format=json&nojsoncallback=1',
+      path: '/services/rest/?method=flickr.photos.search' + '&api_key=6ccf3ac4e38fcdc496798883300e8b6b' + '&user_id=' + usercode + '&min_taken_date=' + startdate.getTime() + '&max_taken_date=' + enddate.getTime() + '&extras=date_taken&format=json&nojsoncallback=1',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     };
 
-      rest.getJSON(options, function(statusCode, results) {
-        res.statusCode = statusCode;
-        res.send(results);
-      });
+    rest.getJSON(options, function(statusCode, results) {
+      res.statusCode = statusCode;
+      res.send(results);
+    });
 
   });
 
 });
 
-app.get('/twitpic/:user', function(req, res) {
+app.get('/twitpic', function(req, res) {
 
-  var user = req.params.user;
-  var startdate = new Date(req.query.startdate);
-  var enddate = new Date(req.query.enddate);
+  var user = req.query.user;
+  var startdate = new Date(req.query.sy, req.query.sm - 1, req.query.sd, 0, 0, 0);
+  var enddate = new Date(req.query.ey, req.query.em - 1, req.query.ed, 23, 59, 59);
 
   var results = [];
 
   function getoptions(n) {
-    console.log('getoptions was called with: ' + n);
     var options = {
       host: 'api.twitpic.com',
       path: '/2/users/show.json?username=' + user + '?page=' + (n == 0 ? 0 : n),
@@ -67,9 +66,7 @@ app.get('/twitpic/:user', function(req, res) {
         'Content-Type': 'application/json'
       }
     };
-    console.log('we are returning: ' + JSON.stringify(options));
     return options;
-
   };
 
   rest.getJSON(getoptions(0), function(statusCode, result) {

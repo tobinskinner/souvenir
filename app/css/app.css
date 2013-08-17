@@ -28,3 +28,20 @@
   content: "";
   padding: 0;
 }
+
+.headingDiv {
+  background-color: #8372F2;
+  border-radius: 10px;
+}
+
+hr {
+color: #00000;
+background-color: #000000;
+height: 2px;
+}
+
+.socialMediaName {
+  font-size: 1.2em;
+  font-style: italic;
+  font-weight: 700;
+}

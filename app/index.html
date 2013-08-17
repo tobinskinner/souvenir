@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="souvenirApp">
 <head>
   <meta charset="utf-8">
   <title>My AngularJS App</title>
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
 </head>
-<body>
+<body ng-controller="souvenirAppController">
   <ul class="menu">
     <li><a href="#/view1">view1</a></li>
     <li><a href="#/view2">view2</a></li>
@@ -18,7 +18,7 @@
 
   <div>My Vacation</div>
   <div>Dates</div>
-  <div>From: <input type="date" ng-model="dates.from"> To: <input type="date" ng-model="dates.to"></div>
+  <div>Depart: <input type="date" ng-model="dates.from"> Return: <input type="date" ng-model="dates.to"></div>
   <br />
   <div>Facebook</div>
   <div>Username: <input type="text" ng-model="userInfoFacebook.username"> Password: <input type="password" ng-model="userInfoFacebook.password"></div>

@@ -1,0 +1,18 @@
+{
+  "name": "souvenir",
+  "version": "0.1.0",
+  "description": "hackMTL project to collect social media from a user to give them a summary of a range of dates.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/senhorzinho/souvenir.git"
+  },
+  "author": "Tobin Skinner and Joshua Horner",
+  "readmeFilename": "README.md",
+  "gitHead": "3d7adee5ac6ecbf790b180bf7aac13b6a6e7c72f",
+  "bugs": {
+    "url": "https://github.com/senhorzinho/souvenir/issues"
+  },
+  "dependencies": {
+    "express": "~3.3.5"
+  }
+}

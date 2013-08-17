@@ -13,11 +13,10 @@
     <div class="row">
     <div ng-class="{'span5 well': day.twitter[0], 'span10 offset1 well': !day.twitter[0]}" ng-hide="!day.flickr[0]">
       <div class="mediaHeader"><h2>Flickr</h2></div>
-    {{day.twitter.length}}
-    <span ng-repeat="flickrImage in day.flickr">
-      Where: {{flickrImage.location}}<br />
-      {{flickrImage.message}}<br />
-      <img ng-src="{{flickrImage.image}}" ng-hide="!flickrImage.image || flickrImage.image==''"><br />
+      <span ng-repeat="flickrImage in day.flickr">
+      <span ng-hide="!flickrImage.location">Where: {{flickrImage.location}}<br /></span>
+      <span ng-hide="!flickrImage.title">{{flickrImage.title}}<br /></span>
+      <img ng-src="{{flickrImage.imageURL}}" ng-hide="!flickrImage.imageURL || flickrImage.imageURL==''"><br />
       <hr />
     </span>
     </div>

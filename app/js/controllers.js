@@ -67,9 +67,8 @@ angular.module('souvenirApp.controllers', [])
         Media.fakeFlickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
           console.log(JSON.stringify(flickrResponse));
           for (var i = 0; i < flickrResponse.length; i++) {
-            // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-
-            // var url = "http:"
+            var url = "http://farm" + flickrResponse[i].farm + ".staticflickr.com/" + flickrResponse[i].server + "/" + flickrResponse[i].id + "_" + flickrResponse[i].secret + ".jpg";
+            console.log(url);
 
             // var postedDate = new Date(flickrResponse[i].date * 1000).toLocaleDateString();
             // if ($scope.media[postedDate]) {

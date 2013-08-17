@@ -24,7 +24,7 @@
   </div>
   <div class="row" ng-show="datesEntered==true">
     <div class="span5 loginTitle">
-      <h3>From: {{fromDate}} To: {{toDate}}</h3>
+      <h3>From: {{fromDate}} To: {{toDate}}</h3> <button class="btn btn-primary" ng-click="datesEntered=false">Change Dates</button>
     </div>
   </div>
   <hr />
@@ -41,7 +41,7 @@
   </div>
   <div class="row" ng-show="loggedInToFlickr==false">
     <div class="span8">
-      Username: <input type="text" ng-model="  userInfoFlickr.username"> Password: <input type="password" ng-model="userInfoFlickr.password">
+      Username: <input type="text" ng-model="  userInfoFlickr.username">
     </div>
     <div class="span3">
       <button class="btn btn-primary" ng-click="getFlickr(userInfoFlickr, dates)">Get Flickr Photos</button></div>

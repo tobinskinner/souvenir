@@ -34,6 +34,9 @@ angular.module('souvenirApp.controllers', [])
         }
 
         var fromDateToString = JSON.stringify(dates.from);
+        var toDateToString = JSON.stringify(dates.to);
+        $scope.fromDate = fromDateToString;
+        $scope.toDate = toDateToString;
         console.log(fromDateToString);
         var currentDate = new Date(fromDateToString);
         var finalDate = new Date(dates.to);
@@ -51,8 +54,8 @@ angular.module('souvenirApp.controllers', [])
     };
 
     $scope.getFlickr = function(userInfoFlickr, dates) {
-      if (!userInfoFlickr || !userInfoFlickr.username || !userInfoFlickr.password) {
-        window.alert("Please enter both a username and a password for Flickr.");
+      if (!userInfoFlickr || !userInfoFlickr.username) {
+        window.alert("Please enter a username for Flickr.");
         return;
       } else {
         $scope.loading = true;
@@ -61,12 +64,17 @@ angular.module('souvenirApp.controllers', [])
 
         // TODO Change to REST API request
         // Add Flickr images to scope if they fall in date range
-        Media.fakeFlickrData().then(function(flickrResponse) {
+        Media.fakeFlickrData(userInfoFlickr.username, dateFrom, dateTo).then(function(flickrResponse) {
+          console.log(JSON.stringify(flickrResponse));
           for (var i = 0; i < flickrResponse.length; i++) {
-            var postedDate = new Date(flickrResponse[i].date * 1000).toLocaleDateString();
-            if ($scope.media[postedDate]) {
-              $rootScope.media[postedDate].flickr.push(flickrResponse[i]);
-            }
+            // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+
+            // var url = "http:"
+
+            // var postedDate = new Date(flickrResponse[i].date * 1000).toLocaleDateString();
+            // if ($scope.media[postedDate]) {
+            //   $rootScope.media[postedDate].flickr.push(flickrResponse[i]);
+            // }
           }
 
           $scope.loading = false;

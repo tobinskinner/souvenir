@@ -3,9 +3,22 @@
   background-color: #B3B1B2;
 }
 
+.appTitleDiv {
+  font-family: 'Flamenco', cursive;
+}
+
 .headingDiv {
   background-color: #84978F;
   border-radius: 10px;
+  font-family: 'Flamenco', cursive;
+}
+
+.loginTitle {
+  font-family: 'Flamenco', cursive;
+}
+
+h1 {
+  text-align: center;
 }
 
 h2 {
@@ -28,4 +41,8 @@ height: 2px;
   margin: 0;
   background-color: #ADA692;
   border-radius: 5px;
+}
+
+.dateDiv {
+  font-family: 'Flamenco', cursive;
 }

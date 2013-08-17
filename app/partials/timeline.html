@@ -6,7 +6,7 @@
   </div>
 
   <div class="row" ng-repeat="day in media" ng-hide="!day.flickr[0] && !day.twitter[0]">
-    <div class="span12 pagination-centered">
+    <div class="span12 pagination-centered dateDiv">
       <h1>{{day.date}}</h1>
     </div>
     <hr />
@@ -22,7 +22,7 @@
     </span>
     </div>
     <div ng-class="{'span5 well': day.flickr[0], 'span10 offset1 well': !day.flickr[0]}" ng-hide="!day.twitter[0]">
-      <h2>Twitter</h2>
+      <div class="mediaHeader"><h2>Twitter</h2></div>
     
     <span ng-repeat="tweet in day.twitter">
       Where: {{tweet.location}}<br />
